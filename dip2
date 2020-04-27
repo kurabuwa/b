@@ -1,0 +1,186 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "Untitled14.ipynb",
+      "provenance": [],
+      "authorship_tag": "ABX9TyNasU/syIvhJlCfvni8pUeY",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/akipi-ro/b/blob/master/dip2\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "ZIgWVrOhiU0t",
+        "colab_type": "code",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 270
+        },
+        "outputId": "ba9dcdcf-4b02-40f5-b37e-6eda5d55f2c8"
+      },
+      "source": [
+        "# coding: utf-8\n",
+        "import numpy as np\n",
+        "import pandas as pd\n",
+        "import sklearn\n",
+        "\n",
+        "\n",
+        "#workapp_#\n",
+        "x=pd.read_csv(\"train_x.csv\")#説明\n",
+        "y=pd.read_csv(\"train_y.csv\")#目的\n",
+        "\n",
+        "x.head()\n",
+        "i=x.dropna(how='all')\n",
+        "\n",
+        "x.isnull().sum()[x.isnull().sum()>=15853].sort_values()\n",
+        "\n",
+        "\n",
+        "x.isnull().sum()[x.isnull().sum()>=15853].sort_values()\n",
+        "\n",
+        "#型の確認\n",
+        "#na_columns = x.isnull().sum()[x.isnull().sum()>=15853].sort_values().index.tolist()\n",
+        "#x[na_columns].dtypes"
+      ],
+      "execution_count": 54,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "/usr/local/lib/python3.6/dist-packages/IPython/core/interactiveshell.py:2718: DtypeWarning: Columns (114) have mixed types.Specify dtype option on import or set low_memory=False.\n",
+            "  interactivity=interactivity, compiler=compiler, result=result)\n"
+          ],
+          "name": "stderr"
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "勤務地　最寄駅3（駅名）          15853\n",
+              "仕事写真（下）　写真2　ファイル名     15853\n",
+              "勤務地　周辺情報              15853\n",
+              "未使用.5                 15853\n",
+              "未使用.22                15853\n",
+              "                      ...  \n",
+              "WEB面接OK               15853\n",
+              "ブロックコード3              15853\n",
+              "メモ                    15853\n",
+              "プログラム関連のスキルを活かす       15853\n",
+              "（派遣先）概要　勤務先名（フリガナ）    15853\n",
+              "Length: 85, dtype: int64"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 54
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "qmBF8_mjscCl",
+        "colab_type": "text"
+      },
+      "source": [
+        "#配列変換"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "j8NJ1U_bos1r",
+        "colab_type": "code",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 198
+        },
+        "outputId": "684d0a18-4481-4e7e-eb0b-364f37124994"
+      },
+      "source": [
+        "y_array=np.array(y)\n",
+        "x_array=np.array(x)\n"
+      ],
+      "execution_count": 45,
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "TypeError",
+          "evalue": "ignored",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mTypeError\u001b[0m                                 Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-45-a0f4d231a8f5>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m()\u001b[0m\n\u001b[1;32m      1\u001b[0m \u001b[0my_array\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mnp\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0marray\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0my\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      2\u001b[0m \u001b[0mx_array\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mnp\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0marray\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mx\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 3\u001b[0;31m \u001b[0mlist\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mx_array\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mshape\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+            "\u001b[0;31mTypeError\u001b[0m: 'tuple' object is not callable"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "6cRgHdVEln75",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        ""
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "bq4u52a-pki_",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        ""
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "i1DgcJD3sUH3",
+        "colab_type": "text"
+      },
+      "source": [
+        "#結果出力"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "nbEE4WUdpkfC",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "=pd.DataFrame({\"Id\" : houseprice_assignment[\"お仕事No.\"],\"SalePrice\" : y2_pred})"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    }
+  ]
+}
